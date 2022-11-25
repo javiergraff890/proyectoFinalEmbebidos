@@ -1,0 +1,2 @@
+en este zip de radiohead ya esta descomentada la linea para que use timer2
+en teoria si se lo importa ya deberia andar de una
