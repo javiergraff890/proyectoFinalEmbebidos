@@ -1,14 +1,17 @@
 #include <RH_ASK.h>
 #include <SPI.h>
+#include <stdlib.h>
 
 RH_ASK rf_driver;
 
 int IN1 = 6;      // IN1 a pin digital 2
-int IN2 = 7;      // IN2 a pin digital 3
+int IN2 = 7;      // IN2 a pin digital 
 int ENA = 9;      // ENA a pin digital 5
 int IN3 = 5;      // IN3 a pin digital 7
-int IN4 = 4;      // IN4 a pin digital 8
-int ENB = 3;      // ENA a pin digital 9
+int IN4 = 4;      // IN4 a pin digital 4 //pasa al 8
+int ENB = 10;      // ENA a pin digital 3 //pasa al 10
+
+int numero;
 
 const int DETENIDO = 0;
 const int ADELANTE = 1;
@@ -33,13 +36,14 @@ void setup(){
   
 }
 
-uint8_t buff[5];
+uint8_t buff[1];
 uint8_t bufflen = sizeof(buff);
 
 void loop(){
-  avanzar();
-  delay(2000);      // demora de 2 seg.
-  avanzarDerecha();
+  //avanzar();
+  //delay(2000);      // demora de 2 seg.
+  //avanzarDerecha();
+  /*
   delay(2000);
   avanzarIzquierda();
   delay(2000);
@@ -53,6 +57,10 @@ void loop(){
   delay(2000);
   detenerse();
   delay(15000);
+  */
+
+  recibirSenial();
+  interpretarSenial(numero);
 }
 
 void avanzar(){
@@ -128,7 +136,7 @@ void retrocederDerecha() //El motor A debe ir mas despacio
 
 //funcion que interpreta los valores recibidos del sensor
 
-void interpresarSenial(int num)
+void interpretarSenial(int num)
 {
   switch(num){
       case DETENIDO : {
@@ -151,10 +159,14 @@ void interpresarSenial(int num)
 
 void recibirSenial()
 {
-   int numero;
    if(rf_driver.recv(buff, &bufflen)){
-      numero = (int)buff;
-    } 
+      numero = (int)atoi(buff);
+      //digitalWrite(12,HIGH);
+      Serial.print("numero ---> ");
+      Serial.println(numero);  
+    }
+    //digitalWrite(12,LOW);
+
 }
 
 
